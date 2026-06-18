@@ -1,0 +1,15 @@
+<h1>📊 Dashboard</h1>
+
+<a href="/add">➕ Add New</a>
+<a href="/history">History</a>
+<a href="/maintenance">Maintenance</a>
+
+<ul>
+{% for item in items %}
+    <li>
+        {{ item.name }} | {{ item.category }} | {{ item.quantity }}
+        <a href="/update/{{ item.id }}">✏️ Edit</a>
+        <a href="/delete/{{ item.id }}">🗑️ Delete</a>
+    </li>
+{% endfor %}
+</ul>
