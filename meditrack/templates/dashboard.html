@@ -1,15 +1,103 @@
-<h1>📊 Dashboard</h1>
+{% extends 'base.html' %}
 
-<a href="/add">➕ Add New</a>
-<a href="/history">History</a>
-<a href="/maintenance">Maintenance</a>
+{% block title %}Dashboard | MediTrack{% endblock %}
 
-<ul>
-{% for item in items %}
-    <li>
-        {{ item.name }} | {{ item.category }} | {{ item.quantity }}
-        <a href="/update/{{ item.id }}">✏️ Edit</a>
-        <a href="/delete/{{ item.id }}">🗑️ Delete</a>
-    </li>
-{% endfor %}
-</ul>
+{% block content %}
+<div class="card">
+    <div class="actions">
+        <a class="button" href="{{ url_for('add_equipment') }}">+ Add New Equipment</a>
+    </div>
+</div>
+<div class="grid grid-3">
+    <div class="card">
+        <h3>Total equipment types</h3>
+        <p class="badge">{{ total_items }}</p>
+    </div>
+    <div class="card">
+        <h3>Total quantity in stock</h3>
+        <p class="badge">{{ total_quantity }}</p>
+    </div>
+    <div class="card">
+        <h3>Recent actions</h3>
+        <p>{{ recent_usage|length }} recent use logs</p>
+        <p>{{ recent_maintenance|length }} recent maintenance logs</p>
+    </div>
+</div>
+<div class="card">
+    <h2>Inventory</h2>
+    {% if not items %}
+        <p>No equipment recorded yet.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="actions">
+                        <a class="button" href="{{ url_for('update_equipment', id=item.id) }}">Edit</a>
+                        <a class="button" href="{{ url_for('log_usage', id=item.id) }}">Use</a>
+                        <a class="button" href="{{ url_for('log_maintenance', id=item.id) }}">Maintenance</a>
+                        <a class="button" href="{{ url_for('delete_equipment', id=item.id) }}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+<div class="grid grid-2">
+    <div class="card">
+        <h2>Recent usage</h2>
+        {% if not recent_usage %}
+            <p>No usage logs yet.</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr><th>Item</th><th>Qty</th><th>Note</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                    {% for log in recent_usage %}
+                    <tr>
+                        <td>{{ log.equipment.name }}</td>
+                        <td>{{ log.quantity_used }}</td>
+                        <td>{{ log.note or '-' }}</td>
+                        <td>{{ log.used_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <div class="card">
+        <h2>Recent maintenance</h2>
+        {% if not recent_maintenance %}
+            <p>No maintenance logs yet.</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr><th>Item</th><th>Status</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                    {% for log in recent_maintenance %}
+                    <tr>
+                        <td>{{ log.equipment.name }}</td>
+                        <td>{{ log.status }}</td>
+                        <td>{{ log.maintenance_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,11 +1,18 @@
-<h1>➕ Add Equipment</h1>
+{% extends 'base.html' %}
 
-<form method="POST">
-    <input name="name" placeholder="Name" required><br><br>
-    <input name="category" placeholder="Category" required><br><br>
-    <input name="quantity" type="number" placeholder="Quantity" required><br><br>
+{% block title %}Add Equipment | MediTrack{% endblock %}
 
-    <button type="submit">Add</button>
-</form>
-
-<a href="/dashboard">Back</a>
+{% block content %}
+<div class="card">
+    <h2>Add New Equipment</h2>
+    <form method="POST">
+        <label>Name</label>
+        <input name="name" placeholder="Name" required>
+        <label>Category</label>
+        <input name="category" placeholder="Category" required>
+        <label>Quantity</label>
+        <input name="quantity" type="number" min="0" placeholder="Quantity" required>
+        <button type="submit">Add Equipment</button>
+    </form>
+</div>
+{% endblock %}

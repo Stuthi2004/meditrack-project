@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Log Usage | MediTrack{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Log Usage for {{ item.name }}</h2>
+    <form method="POST">
+        <label>Quantity Used</label>
+        <input name="quantity_used" type="number" min="1" max="{{ item.quantity }}" required>
+        <label>Note</label>
+        <textarea name="note" placeholder="Optional note"></textarea>
+        <button type="submit">Save Usage</button>
+    </form>
+</div>
+{% endblock %}

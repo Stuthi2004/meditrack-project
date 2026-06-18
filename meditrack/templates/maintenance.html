@@ -1,5 +1,28 @@
-<h1>Maintenance Page</h1>
+{% extends 'base.html' %}
 
-<p>Maintenance logs will be added here.</p>
+{% block title %}Maintenance Logs | MediTrack{% endblock %}
 
-<a href="/dashboard">Back</a>
+{% block content %}
+<div class="card">
+    <h2>Maintenance Records</h2>
+    {% if not logs %}
+        <p>No maintenance records recorded yet.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr><th>Item</th><th>Status</th><th>Notes</th><th>Date</th></tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.equipment.name }}</td>
+                    <td>{{ log.status }}</td>
+                    <td>{{ log.notes or '-' }}</td>
+                    <td>{{ log.maintenance_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

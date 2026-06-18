@@ -1,11 +1,18 @@
-<h1>✏️ Update Equipment</h1>
+{% extends 'base.html' %}
 
-<form method="POST">
-    <input name="name" value="{{ item.name }}" required><br><br>
-    <input name="category" value="{{ item.category }}" required><br><br>
-    <input name="quantity" value="{{ item.quantity }}" required><br><br>
+{% block title %}Update Equipment | MediTrack{% endblock %}
 
-    <button type="submit">Update</button>
-</form>
-
-<a href="/dashboard">Back</a>
+{% block content %}
+<div class="card">
+    <h2>Update Equipment</h2>
+    <form method="POST">
+        <label>Name</label>
+        <input name="name" value="{{ item.name }}" required>
+        <label>Category</label>
+        <input name="category" value="{{ item.category }}" required>
+        <label>Quantity</label>
+        <input name="quantity" type="number" min="0" value="{{ item.quantity }}" required>
+        <button type="submit">Update Equipment</button>
+    </form>
+</div>
+{% endblock %}

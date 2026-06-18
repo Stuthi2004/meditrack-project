@@ -1,5 +1,28 @@
-<h1>History Page</h1>
+{% extends 'base.html' %}
 
-<p>Equipment usage history will appear here.</p>
+{% block title %}Usage History | MediTrack{% endblock %}
 
-<a href="/dashboard">Back</a>
+{% block content %}
+<div class="card">
+    <h2>Usage History</h2>
+    {% if not logs %}
+        <p>No usage history recorded yet.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr><th>Item</th><th>Quantity</th><th>Note</th><th>Date</th></tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.equipment.name }}</td>
+                    <td>{{ log.quantity_used }}</td>
+                    <td>{{ log.note or '-' }}</td>
+                    <td>{{ log.used_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
